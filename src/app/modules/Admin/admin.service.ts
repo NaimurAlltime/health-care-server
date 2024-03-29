@@ -3,7 +3,8 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getAllFromDB = async (params: any) => {
-  const andCondition: Prisma.AdminWhereInput[] = [];
+  const { searchTerm, ...filterData } = params;
+  const andConditions: Prisma.AdminWhereInput[] = [];
 
   // OR: [
   //   {
@@ -23,7 +24,7 @@ const getAllFromDB = async (params: any) => {
   const adminSearchAbleField = ["name", "email"];
 
   if (params.searchTerm) {
-    andCondition.push({
+    andConditions.push({
       OR: adminSearchAbleField.map((field) => ({
         [field]: {
           contains: params.searchTerm,
@@ -33,7 +34,17 @@ const getAllFromDB = async (params: any) => {
     });
   }
 
-  const whereCondition: Prisma.AdminWhereInput = { AND: andCondition };
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map((key) => ({
+        [key]: {
+          equals: (filterData as any)[key],
+        },
+      })),
+    });
+  }
+
+  const whereCondition: Prisma.AdminWhereInput = { AND: andConditions };
 
   const result = await prisma.admin.findMany({
     where: whereCondition,
