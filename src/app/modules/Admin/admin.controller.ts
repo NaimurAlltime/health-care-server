@@ -6,7 +6,8 @@ import pick from "../../../shared/pick";
 const getAllFromDB = async (req: Request, res: Response) => {
   try {
     const filters = pick(req.query, adminFilterableFields);
-    const result = await AdminService.getAllFromDB(filters);
+    const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+    const result = await AdminService.getAllFromDB(filters, options);
     res.status(200).json({
       success: true,
       message: "Admin data fetched",
