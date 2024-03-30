@@ -3,6 +3,7 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import { userRoutes } from "./app/modules/User/user.routes";
 import { AdminRoutes } from "./app/modules/Admin/admin.routes";
 import router from "./app/routes";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 
 const app: Application = express();
 
@@ -19,5 +20,7 @@ app.get("/test", async (req: Request, res: Response) => {
 });
 
 app.use("/api/v1", router);
+
+app.use(globalErrorHandler);
 
 export default app;
