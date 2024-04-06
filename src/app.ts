@@ -1,14 +1,14 @@
 import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";
-import { userRoutes } from "./app/modules/User/user.routes";
-import { AdminRoutes } from "./app/modules/Admin/admin.routes";
 import router from "./app/routes";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import notFoundRouteHandler from "./app/middlewares/notFundRouteHandler";
+import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 
 app.use(cors());
+app.use(cookieParser());
 
 //parser
 app.use(express.json());
