@@ -82,14 +82,6 @@ model Patient {
   @@map("patients")
 }
 
-model Specialties {
-  id                String              @id @default(uuid())
-  title             String
-  icon              String
-
-  @@map("specialties")
-}
-
 
 enum UserRole {
   ADMIN
