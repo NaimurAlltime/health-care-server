@@ -61,10 +61,16 @@ model Doctor {
   createdAt           DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
   user                User                @relation(fields: [email], references: [email])
-  // doctorSpecialties   DoctorSpecialties[]
-  // doctorSchedules     DoctorSchedules[]
 
   @@map("doctors")
+}
+
+model Specialties {
+  id                String              @id @default(uuid())
+  title             String
+  icon              String
+
+  @@map("specialties")
 }
 
 
